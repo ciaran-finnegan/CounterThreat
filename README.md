@@ -2,7 +2,7 @@
 
 A Serverless Automated Response Framework for AWS.
 
-The CounterThreat Lambda function receives events executes the appropriate actions to mitigate the threats according to their types and severity.
+The CounterThreat Lambda function receives AWS GuardDuty (more sources to come) events and executes the appropriate actions to mitigate the threats according to their types and severity.
 
 The deployment script will enable GuardDuty and deploy the CounterThreat Lambda function in all 
 supported regions.
