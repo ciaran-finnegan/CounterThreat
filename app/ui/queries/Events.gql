@@ -1,0 +1,9 @@
+query events {
+  events {
+    customerId
+    actions
+    actionParameters {
+      username
+    }
+  }
+}
