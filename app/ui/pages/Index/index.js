@@ -11,22 +11,21 @@ const Index = ({ data }) => {
     <Styles.Index>
       <img
         src="https://s3-us-west-2.amazonaws.com/cleverbeagle-assets/graphics/email-icon.png"
-        alt="Clever Beagle"
+        alt="CounterThreat"
       />
-      <h1>Pup</h1>
-      <p>The Ultimate Boilerplate for Products.</p>
+      <h1>CounterThreat</h1>
+      <p>Auto-remediate threats to your cloud</p>
       <div>
-        <Button href="http://cleverbeagle.com/pup">Read the Docs</Button>
-        <Button href="https://github.com/cleverbeagle/pup">
+        <Button href="https://github.com/slartibastfast/CounterThreat.git">
           <i className="fa fa-star" />
           {' Star on GitHub'}
         </Button>
       </div>
       <footer>
         <p>
-          {'Want to learn how to build a really solid MVP with Pup? '}
-          <a href="https://cleverbeagle.com/together?utm_source=pup&utm_medium=app&utm_campaign=oss">
-            Check out Together by Clever Beagle
+          {'Shoot first, ask questions later '}
+          <a href="https://counterthreat.co">
+            Find out more at CounterThreat.co
           </a>
           .
         </p>
