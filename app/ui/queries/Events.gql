@@ -1,9 +1,18 @@
 query events {
   events {
+    _id
     customerId
-    actions
+    actions {
+      status
+      type
+    }
     actionParameters {
       username
+      ipAddress
+      domain
+      instanceId
+      vpcId
     }
+    guardDutyEvent
   }
 }

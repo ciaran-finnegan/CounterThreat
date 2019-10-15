@@ -13,6 +13,8 @@ import Public from '../../components/Public';
 
 import Index from '../../pages/Index';
 
+import Events from '../../pages/Events';
+
 import Documents from '../../pages/Documents';
 import ViewDocument from '../../pages/ViewDocument';
 import EditDocument from '../../pages/EditDocument';
@@ -80,6 +82,15 @@ class App extends React.Component {
               name="index"
               path="/"
               component={Index}
+              setAfterLoginPath={setAfterLoginPath}
+              {...props}
+              {...state}
+            />
+
+            <Authenticated
+              exact
+              path="/events"
+              component={Events}
               setAfterLoginPath={setAfterLoginPath}
               {...props}
               {...state}

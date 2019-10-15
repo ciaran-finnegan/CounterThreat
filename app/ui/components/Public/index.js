@@ -15,7 +15,7 @@ const Public = ({ loggingIn, authenticated, afterLoginPath, component, path, exa
           authenticated,
         })
       ) : (
-        <Redirect to={afterLoginPath || '/documents'} />
+        <Redirect to={afterLoginPath || '/events'} />
       )
     }
   />
