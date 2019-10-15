@@ -10,7 +10,7 @@ const Index = ({ data }) => {
   return (
     <Styles.Index>
       <img
-        src="https://s3-us-west-2.amazonaws.com/cleverbeagle-assets/graphics/email-icon.png"
+        src="https://www.graphicsprings.com/filestorage/stencils/339b52e583d1c093cccf0e56af9ed695.png?width=150&height=150"
         alt="CounterThreat"
       />
       <h1>CounterThreat</h1>
@@ -23,9 +23,9 @@ const Index = ({ data }) => {
       </div>
       <footer>
         <p>
-          {'Shoot first, ask questions later '}
+          {'Shoot first, ask questions later   '}
           <a href="https://counterthreat.co">
-            Find out more at CounterThreat.co
+              Find out more at CounterThreat.co
           </a>
           .
         </p>

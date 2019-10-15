@@ -14,3 +14,5 @@ BrowserPolicy.content.allowOriginForAll('cdn.jsdelivr.net');
 BrowserPolicy.content.allowOriginForAll('cleverbeagle-assets.s3.amazonaws.com');
 BrowserPolicy.content.allowOriginForAll('s3-us-west-2.amazonaws.com');
 BrowserPolicy.content.allowFontOrigin('data:');
+// Temp for temporary logo
+BrowserPolicy.content.allowOriginForAll('www.graphicsprings.com');

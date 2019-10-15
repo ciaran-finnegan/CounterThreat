@@ -4,10 +4,10 @@
       "httpUri": "http://localhost:3000/graphql"
     },
     "productName": "CounterThreat",
-    "copyrightStartYear": "2018",
-    "twitterUsername": "product",
-    "facebookUsername": "product",
-    "productAddress": ""
+    "copyrightStartYear": "2019",
+    "twitterUsername": "counterthreat.co",
+    "facebookUsername": "counterthreat.co",
+    "productAddress": "Boulder, Colorado, United States"
   },
   "private": {
     "MAIL_URL": "",
@@ -31,6 +31,6 @@
         "loginStyle": "popup"
       }
     },
-    "supportEmail": "Customer Support <support@product.com>"
+    "supportEmail": "Customer Support <support@counterthreat.co>"
   }
 }
