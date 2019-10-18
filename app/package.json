@@ -18,8 +18,8 @@
   "scripts": {
     "dev": "MONGO_URL=$(cat ./credentials/MONGO_URL) meteor --settings settings-development.json",
     
-    "staging": "DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy pup-staging.cleverbeagle.com --settings settings-staging.json",
-    "production": "DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy pup.cleverbeagle.com --settings settings-production.json",
+    "staging": "DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy staging.counterthreat.app --settings settings-staging.json",
+    "production": "DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy counterthreat.com --settings settings-production.json",
     "lint": "eslint .",
     "lint:all": "eslint --fix .",
     "lint:file": "eslint --fix",
