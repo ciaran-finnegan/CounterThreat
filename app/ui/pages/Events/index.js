@@ -8,7 +8,7 @@ import { timeago } from '../../../modules/dates';
 
 import { StyledEvents, Event } from './styles';
 
-const PER_PAGE = 10;
+const PER_PAGE = 100;
 
 class Events extends React.Component {
   state = {
