@@ -5,6 +5,7 @@ query events {
     actions {
       status
       type
+      isReversible
     }
     actionParameters {
       username

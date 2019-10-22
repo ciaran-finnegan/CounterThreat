@@ -15,6 +15,7 @@ import DocumentMutations from '../../api/Documents/mutations';
 
 import EventTypes from '../../api/Events/types';
 import EventQueries from '../../api/Events/queries';
+import EventMutations from '../../api/Events/mutations';
 
 import CommentTypes from '../../api/Comments/types';
 import CommentQueries from '../../api/Comments/queries';
@@ -50,6 +51,7 @@ const schema = {
       removeDocument(_id: String!): Document
       addComment(documentId: String!, comment: String!): Comment
       removeComment(commentId: String!): Comment
+      reverseAction(eventId: ID!, actionType: String!): Boolean
       updateUser(user: UserInput): User
       removeUser(_id: String): User
       addUserSetting(setting: UserSettingInput): UserSetting
@@ -73,6 +75,7 @@ const schema = {
     },
     Mutation: {
       ...DocumentMutations,
+      ...EventMutations,
       ...CommentMutations,
       ...UserMutations,
       ...UserSettingsMutations,

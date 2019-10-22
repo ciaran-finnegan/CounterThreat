@@ -114,7 +114,7 @@ export const Event = styled.li`
         list-style: none;
       }
 
-      ul li:not(:last-child) {
+      > ul li:not(:first-child) {
         margin-left: 10px;
       }
     }
@@ -124,13 +124,37 @@ export const Event = styled.li`
     }
 
     > ul li.action {
-      padding: 2px 6px;
+      padding: 2px 5px;
       border-radius: 3px;
       font-size: 13px;
+      position: relative;
+
+      &.is-reversible {
+        padding: 2px 30px 2px 6px;
+      }
 
       i {
         display: inline-block;
         margin-right: 7px;
+      }
+
+      .reverse-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0px 3px 3px 0px;
+        display: inline-block;
+        margin-left: 3px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 2px 5px;
+
+        i {
+          margin-right: 0;
+        }
       }
 
       &.action-pending {

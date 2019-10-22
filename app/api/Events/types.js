@@ -8,6 +8,7 @@ export default `
   type Action {
     status: ActionStatus
     type: String
+    isReversible: Boolean
   }
 
   type ActionParameters {

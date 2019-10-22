@@ -1,8 +1,9 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import eventsQuery from '../../queries/Events.gql';
+import handleReverseActionMutation from '../../mutations/Events.gql';
 import { timeago } from '../../../modules/dates';
 
 import { StyledEvents, Event } from './styles';
@@ -62,6 +63,21 @@ class Events extends React.Component {
     }));
   };
 
+  handleReverseAction = (event, eventId, actionType) => {
+    event.stopPropagation();
+
+    if (confirm(`Are you sure? This will reverse the ${actionType} action on this event.`)) {
+      const { handleReverseAction } = this.props;
+
+      handleReverseAction({
+        variables: {
+          eventId,
+          actionType,
+        },
+      });
+    }
+  };
+
   render() {
     const { data } = this.props;
     const events = _.get(data, 'events', []);
@@ -69,8 +85,6 @@ class Events extends React.Component {
       ...rest,
       guardDutyEvent: this.parseGuardDutyEvent(guardDutyEvent),
     }));
-
-    console.log(eventsWithParsedGuardDutyEvent);
 
     return (
       <React.Fragment>
@@ -132,10 +146,12 @@ class Events extends React.Component {
                             <h5>Actions</h5>
                             <p>
                               <ul>
-                                {actions.map(({ status, type }) => (
+                                {actions.map(({ status, type, isReversible }) => (
                                   <li
                                     key={`${status}_${type}`}
-                                    className={`action action-${status}`}
+                                    className={`action action-${status} ${isReversible &&
+                                      status === 'successful' &&
+                                      'is-reversible'}`}
                                   >
                                     {
                                       {
@@ -145,6 +161,16 @@ class Events extends React.Component {
                                       }[status]
                                     }
                                     <span>{type}</span>
+                                    {isReversible && status === 'successful' && (
+                                      <div
+                                        className={`reverse-action`}
+                                        onClick={(event) =>
+                                          this.handleReverseAction(event, _id, type)
+                                        }
+                                      >
+                                        <i className="fas fa-refresh" />
+                                      </div>
+                                    )}
                                   </li>
                                 ))}
                               </ul>
@@ -168,4 +194,9 @@ Events.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default graphql(eventsQuery)(Events);
+export default compose(
+  graphql(eventsQuery),
+  graphql(handleReverseActionMutation, {
+    name: 'handleReverseAction',
+  }),
+)(Events);

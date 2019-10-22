@@ -1,0 +1,3 @@
+mutation reverseAction($eventId: ID!, $actionType: String!) {
+  reverseAction(eventId: $eventId, actionType: $actionType)
+}

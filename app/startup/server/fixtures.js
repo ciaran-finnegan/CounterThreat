@@ -25,9 +25,9 @@ const eventsSeed = (customerId) => {
               vpcId: 'vpc123',
             },
             actions: [
-              { status: 'pending', type: 'whitelistedIpAddress' },
-              { status: 'successful', type: 'somethingGood' },
-              { status: 'failed', type: 'blacklistIpAddress' },
+              { status: 'successful', type: 'whitelistedIpAddress', isReversible: true },
+              { status: 'failed', type: 'somethingGood' },
+              { status: 'pending', type: 'blacklistIpAddress', isReversible: true },
             ],
           };
         },
