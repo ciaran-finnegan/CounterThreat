@@ -8,10 +8,10 @@ import Customers from '../../api/Customers/Customers';
 const eventsSeed = (customerId) => {
   seeder(Events, {
     seedIfExistingData: true,
-    environments: ['development', 'staging'],
+    environments: ['development', 'staging', 'production'],
     data: {
       dynamic: {
-        count: 1000,
+        count: 100,
         seed() {
           const eventTitle = [
             'Unusual network permission reconnaissance activity by GeneratedFindingUserName.',

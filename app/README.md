@@ -1,17 +1,11 @@
-### Pup
-The Ultimate Boilerplate for Products.
+### Counterthreat
+Self defence for your cloud.
 
-[Read the Documentation](https://cleverbeagle.com/pup)
+[Uses the Pup boilerplate, Read the Documentation](https://cleverbeagle.com/pup)
 
 [![CircleCI](https://circleci.com/gh/cleverbeagle/pup.svg?style=shield)](https://circleci.com/gh/cleverbeagle/pup)
 
-Want to work side-by-side with an experienced, trusted mentor? [Check out Clever Beagle](http://cleverbeagle.com).
 
----
-
-**NOTE:** The following represents example `README.md` content for your product. **_The information below should be customized for your product._**
-
----
 
 1. Infrastructure
 2. Settings & Configuration
@@ -27,11 +21,11 @@ The following explains how the `production` and `staging` environments for this 
 
 #### Where is DNS configured for this app?
 
-DNS for the app is configured and managed via [DNSimple](https://dnsimple.com).
+DNS for the app is configured and managed via [Cloudflare](https://cloudflare.com).
 
 #### Where does the database live?
 
-The database is hosted via [Compose](https://compose.com). A single deployment `cleverbeagle` exists with a `pup` database for the `production` environment and a `pup-staging` database for the `staging` environment. Additionally, the "Oplog Access" add-on has been enabled to [improve the performance of Meteor in `production`](https://galaxy-guide.meteor.com/apm-optimize-your-app-for-oplog.html).
+The database is hosted via [Atlas](https://www.mongodb.com/cloud/atlas). A single deployment `cleverbeagle` exists with a `pup` database for the `production` environment and a `pup-staging` database for the `staging` environment. Additionally, the "Oplog Access" add-on has been enabled to [improve the performance of Meteor in `production`](https://galaxy-guide.meteor.com/apm-optimize-your-app-for-oplog.html).
 
 #### Where does this app live?
 

@@ -16,9 +16,10 @@
     }
   },
   "scripts": {
+    "dev-localDB" : "meteor --settings settings-development.json",
     "dev": "MONGO_URL=$(cat ./credentials/MONGO_URL) meteor --settings settings-development.json",
     "staging": "DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy staging.counterthreat.app --settings settings-staging.json",
-    "production": "DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy counterthreat.com --settings settings-production.json",
+    "production": "DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy counterthreat.app --settings settings-production.json",
     "lint": "eslint .",
     "lint:all": "eslint --fix .",
     "lint:file": "eslint --fix",
