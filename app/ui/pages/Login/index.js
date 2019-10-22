@@ -25,11 +25,11 @@ class Login extends React.Component {
         <LoginPromo>
           <header>
             <img
-              src="http://cleverbeagle-assets.s3.amazonaws.com/graphics/pup-document-graphic.png"
-              alt="Clever Beagle"
+              src="https://www.graphicsprings.com/filestorage/stencils/339b52e583d1c093cccf0e56af9ed695.png?width=150&height=150"
+              alt="Counterthreat"
             />
-            <h4>Introducing Documents</h4>
-            <p>Keep track of your ideas, privately and publicly.</p>
+            <h4>Counterthreat</h4>
+            <p>Self defence for your cloud!.</p>
           </header>
         </LoginPromo>
         <Row>
