@@ -15,10 +15,10 @@ const eventsSeed = (customerId) => {
         seed() {
           const eventTitle = [
             'Unusual network permission reconnaissance activity by GeneratedFindingUserName.',
-            'Found a doodle caught in the doodle',
-            'Hexed the frankfurter on the dual plex',
-            'Caught the turkey after it ran off the table',
-            'Clackity clack boop a doop',
+            'EC2 instance i-99999999 is communicating with IP address 198.51.100.0 on the Tor Anonymizing Proxy network marked as an Entry node.',
+            'EC2 instance i-99999999 is behaving in a manner that may indicate it is being used to perform a Denial of Service (DoS) attack using UDP protocol on TCP port.',
+            'EC2 instance i-99999999 is communicating outbound with a known Bitcoin-related IP address 198.51.100.0',
+            '198.51.100.0 is performing SSH brute force attacks against i-99999999. Brute force attacks are used to gain unauthorized access to your instance by guessing the SSH ',
           ][Math.floor(Math.random() * 5)];
           return {
             customerId,
