@@ -1,19 +1,22 @@
-query events {
-  events {
-    _id
-    customerId
-    actions {
-      status
-      type
-      isReversible
+query events($perPage: Int!, $currentPage: Int!) {
+  events(perPage: $perPage, currentPage: $currentPage) {
+    totalEvents
+    events {
+      _id
+      customerId
+      actions {
+        status
+        type
+        isReversible
+      }
+      actionParameters {
+        username
+        ipAddress
+        domain
+        instanceId
+        vpcId
+      }
+      guardDutyEvent
     }
-    actionParameters {
-      username
-      ipAddress
-      domain
-      instanceId
-      vpcId
-    }
-    guardDutyEvent
   }
 }

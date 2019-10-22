@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose, graphql, withApollo } from 'react-apollo';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import eventsQuery from '../../queries/Events.gql';
@@ -8,9 +8,36 @@ import { timeago } from '../../../modules/dates';
 
 import { StyledEvents, Event } from './styles';
 
+const PER_PAGE = 10;
+
 class Events extends React.Component {
   state = {
+    events: [],
+    totalEvents: 0,
     activeEvent: null,
+    perPage: PER_PAGE,
+    currentPage: 1,
+  };
+
+  componentWillMount() {
+    this.fetchEvents();
+  }
+
+  fetchEvents = async () => {
+    const { client } = this.props;
+    const {
+      data: {
+        events: { totalEvents, events },
+      },
+    } = await client.query({
+      query: eventsQuery,
+      variables: {
+        perPage: this.state.perPage,
+        currentPage: this.state.currentPage,
+      },
+    });
+
+    this.setState({ totalEvents, events });
   };
 
   getSeverityIcon = (severity) => {
@@ -78,9 +105,39 @@ class Events extends React.Component {
     }
   };
 
+  onChangePage = (currentPage) => {
+    this.setState({ currentPage }, () => {
+      this.fetchEvents();
+    });
+  };
+
+  renderPagination = () => {
+    const { totalEvents } = this.state;
+    const pages = [];
+    const pagesToGenerate = Math.ceil(totalEvents / this.state.perPage);
+
+    for (let pageNumber = 1; pageNumber <= pagesToGenerate; pageNumber += 1) {
+      pages.push(
+        <li
+          role="presentation"
+          key={`pagination_${pageNumber}`}
+          className={pageNumber === this.state.currentPage ? 'active' : ''}
+          onClick={() => this.onChangePage(pageNumber)}
+          onKeyDown={() => this.onChangePage(pageNumber)}
+        >
+          <a href="#" onClick={(event) => event.preventDefault()}>
+            {pageNumber}
+          </a>
+        </li>,
+      );
+    }
+
+    return <ul className="pagination pagination-md">{pages}</ul>;
+  };
+
   render() {
     const { data } = this.props;
-    const events = _.get(data, 'events', []);
+    const { totalEvents, events } = this.state;
     const eventsWithParsedGuardDutyEvent = events.map(({ guardDutyEvent, ...rest }) => ({
       ...rest,
       guardDutyEvent: this.parseGuardDutyEvent(guardDutyEvent),
@@ -185,6 +242,10 @@ class Events extends React.Component {
             },
           )}
         </StyledEvents>
+        {totalEvents &&
+          this.state.perPage &&
+          totalEvents > this.state.perPage &&
+          this.renderPagination()}
       </React.Fragment>
     );
   }
@@ -195,8 +256,7 @@ Events.propTypes = {
 };
 
 export default compose(
-  graphql(eventsQuery),
   graphql(handleReverseActionMutation, {
     name: 'handleReverseAction',
   }),
-)(Events);
+)(withApollo(Events));

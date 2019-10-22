@@ -37,7 +37,7 @@ const schema = {
     type Query {
       documents: [Document]
       document(_id: String): Document
-      events: [Event]
+      events(perPage: Int!, currentPage: Int!): Events
       user(_id: String): User
       users(currentPage: Int, perPage: Int, search: String): Users
       userSettings: [UserSetting]

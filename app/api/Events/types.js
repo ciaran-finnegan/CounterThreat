@@ -26,4 +26,9 @@ export default `
     actionParameters: ActionParameters
     actions: [Action] # NOTE: Actions taken as part of this event.
   }
+
+  type Events {
+    totalEvents: Int
+    events: [Event]
+  }
 `;
