@@ -16,8 +16,8 @@ const eventsSeed = (customerId) => {
           const eventTitle = [
             'Unusual network permission reconnaissance activity by GeneratedFindingUserName.',
             'EC2 instance i-99999999 is communicating with IP address 198.51.100.0 on the Tor Anonymizing Proxy network marked as an Entry node.',
-            'EC2 instance i-99999999 is behaving in a manner that may indicate it is being used to perform a Denial of Service (DoS) attack using UDP protocol on TCP port.',
-            'EC2 instance i-99999999 is communicating outbound with a known Bitcoin-related IP address 198.51.100.0',
+            'EC2 instance i-88888888 is behaving in a manner that may indicate it is being used to perform a Denial of Service (DoS) attack using UDP protocol on TCP port.',
+            'EC2 instance i-77777777 is communicating outbound with a known Bitcoin-related IP address 198.51.100.0',
             '198.51.100.0 is performing SSH brute force attacks against i-99999999. Brute force attacks are used to gain unauthorized access to your instance by guessing the SSH ',
           ][Math.floor(Math.random() * 5)];
           return {
@@ -32,8 +32,8 @@ const eventsSeed = (customerId) => {
             },
             actions: [
               { status: 'successful', type: 'whitelistedIpAddress', isReversible: true },
-              { status: 'failed', type: 'somethingGood' },
-              { status: 'pending', type: 'blacklistIpAddress', isReversible: true },
+              { status: 'failed', type: 'quarantineInstance' },
+              { status: 'pending', type: 'blockDomain', isReversible: true },
             ],
           };
         },
@@ -45,7 +45,7 @@ const eventsSeed = (customerId) => {
 const playbooksSeed = (customerId) => {
   seeder(Playbooks, {
     seedIfExistingData: true,
-    environments: ['development', 'staging'],
+    environments: ['development', 'staging', 'production'],
     data: {
       dynamic: {
         count: 1,
@@ -60,7 +60,7 @@ const playbooksSeed = (customerId) => {
               'Behavior:EC2/TrafficVolumeUnusual',
               'CryptoCurrency:EC2/BitcoinTool.B!DNS',
             ][Math.floor(Math.random() * 6)],
-            actions: ['whitelist_ip', 'blacklist_ip', 'quarantine_instance', 'disable_user'],
+            actions: ['whitelist_ip', 'blacklist_ip', 'quarantine_instance', 'block_domain', 'snapshot_instance'],
             reliability: 5,
           };
         },
