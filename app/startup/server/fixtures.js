@@ -72,7 +72,7 @@ const playbooksSeed = (customerId) => {
 const customersSeed = (userId) => {
   seeder(Customers, {
     seedIfExistingData: true,
-    environments: ['development', 'staging'],
+    environments: ['development', 'staging', 'production'],
     data: {
       dynamic: {
         count: 1,
