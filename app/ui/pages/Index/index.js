@@ -23,7 +23,7 @@ const Index = ({ data }) => {
       </div>
       <footer>
         <p>
-          {'Shoot first, ask questions later   '}
+          {'Self defence for your Cloud  '}
           <a href="https://counterthreat.co">
               Find out more at CounterThreat.co
           </a>
