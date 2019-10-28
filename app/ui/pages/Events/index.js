@@ -32,15 +32,12 @@ class Events extends React.Component {
     } = await client.query({
       query: eventsQuery,
       variables: {
-        // perPage: this.state.perPage,
-        // currentPage: this.state.currentPage,
-        perPage: 25,
-        currentPage: 1,
+        perPage: this.state.perPage,
+        currentPage: this.state.currentPage,
       },
     });
 
     this.setState({ totalEvents, events });
-    console.log('totalEvents ', totalEvents);  //debugging, ciaran - remove.
 
   };
 
