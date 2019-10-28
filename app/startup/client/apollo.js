@@ -26,7 +26,10 @@ const queryOrMutationLink = () =>
   });
 
 const apolloClient = new ApolloClient({
-  connectToDevTools: true,
+  connectToDevTools: true, 
+  fetchOptions: {
+    mode: 'no-cors',
+  }, 
   link: ApolloLink.from([MeteorAccountsLink(), errorLink, queryOrMutationLink()]),
   cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
 });

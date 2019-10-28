@@ -7,8 +7,9 @@ import Customers from '../../api/Customers/Customers';
 
 const eventsSeed = (customerId) => {
   seeder(Events, {
-    seedIfExistingData: true,
-    environments: ['development', 'staging', 'production'],
+    resetCollection: false,
+    seedIfExistingData: false,
+    environments: ['development', 'staging'],
     data: {
       dynamic: {
         count: 100,
@@ -31,8 +32,8 @@ const eventsSeed = (customerId) => {
               vpcId: 'vpc123',
             },
             actions: [
-              { status: 'successful', type: 'whitelistedIpAddress', isReversible: true },
-              { status: 'failed', type: 'quarantineInstance' },
+              { status: 'successful', type: 'blacklistedIpAddress', isReversible: true },
+              { status: 'pending', type: 'quarantineInstance', isReversible: true },
               { status: 'pending', type: 'blockDomain', isReversible: true },
             ],
           };
@@ -45,7 +46,7 @@ const eventsSeed = (customerId) => {
 const playbooksSeed = (customerId) => {
   seeder(Playbooks, {
     seedIfExistingData: true,
-    environments: ['development', 'staging', 'production'],
+    environments: ['development', 'staging'],
     data: {
       dynamic: {
         count: 1,

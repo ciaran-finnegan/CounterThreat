@@ -26,7 +26,7 @@ onPageLoad(async (sink) => {
   const apolloClient = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
-      uri: Meteor.settings.public.graphQL.httpUri,
+      uri: Meteor.settings.public.graphQL.httpUri, 
     }),
     cache: new InMemoryCache(),
   });
