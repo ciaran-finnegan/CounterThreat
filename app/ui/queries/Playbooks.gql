@@ -1,0 +1,9 @@
+query playbooks {
+  playbooks {
+    eventSource
+    type
+    permissibleActions
+    actions
+    reliability
+  }
+}

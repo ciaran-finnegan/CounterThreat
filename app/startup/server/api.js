@@ -23,21 +23,26 @@ import CommentMutations from '../../api/Comments/mutations';
 
 import OAuthQueries from '../../api/OAuth/queries';
 
+import PlaybookTypes from '../../api/Playbooks/types';
+import PlaybookQueries from '../../api/Playbooks/queries';
+
 import '../../api/Documents/server/indexes';
 import '../../api/webhooks';
 
 const schema = {
   typeDefs: gql`
-    ${EventTypes}
-    ${UserTypes}
-    ${DocumentTypes}
     ${CommentTypes}
+    ${DocumentTypes}
+    ${EventTypes}
+    ${PlaybookTypes}
     ${UserSettingsTypes}
+    ${UserTypes}
 
     type Query {
       documents: [Document]
       document(_id: String): Document
       events(perPage: Int!, currentPage: Int!): Events
+      playbooks: [Playbook]
       user(_id: String): User
       users(currentPage: Int, perPage: Int, search: String): Users
       userSettings: [UserSetting]
@@ -72,6 +77,7 @@ const schema = {
       ...UserQueries,
       ...UserSettingsQueries,
       ...OAuthQueries,
+      ...PlaybookQueries,
     },
     Mutation: {
       ...DocumentMutations,

@@ -14,6 +14,7 @@ import Public from '../../components/Public';
 import Index from '../../pages/Index';
 
 import Events from '../../pages/Events';
+import Playbooks from '../../pages/Playbooks';
 
 import Documents from '../../pages/Documents';
 import ViewDocument from '../../pages/ViewDocument';
@@ -91,6 +92,15 @@ class App extends React.Component {
               exact
               path="/events"
               component={Events}
+              setAfterLoginPath={setAfterLoginPath}
+              {...props}
+              {...state}
+            />
+
+            <Authenticated
+              exact
+              path="/playbooks"
+              component={Playbooks}
               setAfterLoginPath={setAfterLoginPath}
               {...props}
               {...state}

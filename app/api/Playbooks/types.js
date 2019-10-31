@@ -4,6 +4,7 @@ export default `
   }
 
   type Playbook {
+    _id: ID
     eventSource: EventSource
     customerId: ID # NOTE: ID of the customer in the Customers collection.
     type: String
