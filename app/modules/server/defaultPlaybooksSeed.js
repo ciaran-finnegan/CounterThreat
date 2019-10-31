@@ -64,7 +64,7 @@ export default [
   {
     eventSource: 'guardDuty',
     type: 'Persistence:IAMUser/NetworkPermissions',
-    permissibleActions: 'disable_sg_access',
+    permissibleActions: ['disable_sg_access'],
     reliability: 5,
   },
   {
