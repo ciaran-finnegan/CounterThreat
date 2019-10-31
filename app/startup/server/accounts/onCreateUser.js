@@ -2,6 +2,7 @@ import { Accounts } from 'meteor/accounts-base';
 import sendWelcomeEmail from '../../../api/Users/actions/sendWelcomeEmail';
 import UserSettings from '../../../api/UserSettings/UserSettings';
 import isOAuthUser from '../../../api/Users/actions/isOAuthUser';
+import seedPlaybooksForUser from '../../../modules/server/seedPlaybooksForUser';
 
 Accounts.onCreateUser((options, user) => {
   const userToCreate = user;
@@ -12,6 +13,9 @@ Accounts.onCreateUser((options, user) => {
 
   const settings = UserSettings.find().fetch();
   userToCreate.settings = settings;
+
+  // const customerId = 'cus123'; /* createCustomer(); */
+  // seedPlaybooksForUser({ customerId });
 
   return userToCreate;
 });

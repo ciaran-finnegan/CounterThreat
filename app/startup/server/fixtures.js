@@ -2,8 +2,10 @@ import seeder from '@cleverbeagle/seeder';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import Playbooks from '../../api/Playbooks/Playbooks';
+import DefaultPlaybooks from '../../api/DefaultPlaybooks/DefaultPlaybooks';
 import Events from '../../api/Events/Events';
 import Customers from '../../api/Customers/Customers';
+import defaultPlaybooksSeed from '../../modules/server/defaultPlaybooksSeed';
 
 const eventsSeed = (customerId) => {
   seeder(Events, {
@@ -48,24 +50,13 @@ const playbooksSeed = (customerId) => {
     seedIfExistingData: true,
     environments: ['development', 'staging'],
     data: {
-      dynamic: {
-        count: 1,
-        seed() {
-          return {
-            customerId,
-            type: [
-              'Backdoor:EC2/C&CActivity.B!DNS',
-              'Backdoor:EC2/Spambot',
-              'Backdoor:EC2/XORDDOS',
-              'Behavior:EC2/NetworkPortUnusual',
-              'Behavior:EC2/TrafficVolumeUnusual',
-              'CryptoCurrency:EC2/BitcoinTool.B!DNS',
-            ][Math.floor(Math.random() * 6)],
-            actions: ['whitelist_ip', 'blacklist_ip', 'quarantine_instance', 'block_domain', 'snapshot_instance'],
-            reliability: 5,
-          };
-        },
-      },
+      static: defaultPlaybooksSeed.map(({ permissibleActions, ...rest }) => {
+        return {
+          ...rest,
+          customerId,
+          actions: permissibleActions,
+        };
+      }),
     },
   });
 };
@@ -97,6 +88,14 @@ const customersSeed = (userId) => {
     },
   });
 };
+
+seeder(DefaultPlaybooks, {
+  seedIfExistingData: true,
+  environments: ['development', 'staging'],
+  data: {
+    static: defaultPlaybooksSeed,
+  },
+});
 
 seeder(Meteor.users, {
   seedIfExistingData: true,
