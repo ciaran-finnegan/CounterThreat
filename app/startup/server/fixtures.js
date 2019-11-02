@@ -47,7 +47,8 @@ const eventsSeed = (customerId) => {
 
 const playbooksSeed = (customerId) => {
   seeder(Playbooks, {
-    seedIfExistingData: true,
+    resetCollection: false,
+    seedIfExistingData: false,
     environments: ['development', 'staging'],
     data: {
       static: defaultPlaybooksSeed.map(({ permissibleActions, ...rest }) => {
@@ -63,7 +64,8 @@ const playbooksSeed = (customerId) => {
 
 const customersSeed = (userId) => {
   seeder(Customers, {
-    seedIfExistingData: true,
+    resetCollection: false,
+    seedIfExistingData: false,
     environments: ['development', 'staging', 'production'],
     data: {
       dynamic: {
@@ -90,7 +92,8 @@ const customersSeed = (userId) => {
 };
 
 seeder(DefaultPlaybooks, {
-  seedIfExistingData: true,
+  resetCollection: false,
+  seedIfExistingData: false,
   environments: ['development', 'staging'],
   data: {
     static: defaultPlaybooksSeed,
@@ -98,7 +101,8 @@ seeder(DefaultPlaybooks, {
 });
 
 seeder(Meteor.users, {
-  seedIfExistingData: true,
+  resetCollection: false,
+  seedIfExistingData: false,
   environments: ['development', 'staging'],
   data: {
     static: [
