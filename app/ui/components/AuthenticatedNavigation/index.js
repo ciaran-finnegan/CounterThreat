@@ -10,9 +10,16 @@ const AuthenticatedNavigation = ({ name, history, userId }) => (
     <Nav>
       <LinkContainer to="/events">
         <NavItem eventKey={1} href="/events">
-          Events
+          Threat Events
         </NavItem>
       </LinkContainer>
+
+      <LinkContainer to="/playbooks">
+        <NavItem eventKey={2} href="/playbooks">
+          Remediation Playbooks
+        </NavItem>
+      </LinkContainer>
+
       {Roles.userIsInRole(userId, 'admin') && (
         <NavDropdown eventKey={2} title="Admin" id="admin-nav-dropdown">
           <LinkContainer exact to="/admin/users">
