@@ -2,7 +2,7 @@ import Events from './Events';
 import getCustomer from '../../modules/server/getCustomer';
 
 export default {
-  events: (parent, args, context) => {
+  events: async (parent, args, context) => {
     const customer = getCustomer(context.user._id); // this.userId or Meteor.userId()
     const query = { customerId: customer && customer._id };
 

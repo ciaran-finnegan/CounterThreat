@@ -1,0 +1,5 @@
+mutation updatePlaybook($_id: ID!, $actions: [String], $reliability: Int) {
+  updatePlaybook(_id: $_id, actions: $actions, reliability: $reliability) {
+    _id
+  }
+}

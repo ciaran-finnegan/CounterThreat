@@ -25,6 +25,7 @@ import OAuthQueries from '../../api/OAuth/queries';
 
 import PlaybookTypes from '../../api/Playbooks/types';
 import PlaybookQueries from '../../api/Playbooks/queries';
+import PlaybookMutations from '../../api/Playbooks/mutations';
 
 import '../../api/Documents/server/indexes';
 import '../../api/webhooks';
@@ -64,6 +65,7 @@ const schema = {
       removeUserSetting(_id: String!): UserSetting
       sendVerificationEmail: User
       sendWelcomeEmail: User
+      updatePlaybook(_id: ID!, actions: [String], reliability: Int): Playbook
     }
 
     type Subscription {
@@ -83,6 +85,7 @@ const schema = {
       ...DocumentMutations,
       ...EventMutations,
       ...CommentMutations,
+      ...PlaybookMutations,
       ...UserMutations,
       ...UserSettingsMutations,
     },

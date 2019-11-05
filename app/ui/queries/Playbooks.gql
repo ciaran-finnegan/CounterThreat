@@ -1,5 +1,6 @@
 query playbooks {
   playbooks {
+    _id
     eventSource
     type
     permissibleActions

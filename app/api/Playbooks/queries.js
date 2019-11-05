@@ -19,9 +19,6 @@ export default {
         (defaultPlaybook) => defaultPlaybook.type === type,
       );
 
-      console.log(actions instanceof Array);
-      console.log(defaultPlaybook.permissibleActions instanceof Array);
-
       return {
         ...rest,
         type,

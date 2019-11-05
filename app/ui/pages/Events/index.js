@@ -4,6 +4,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import eventsQuery from '../../queries/Events.gql';
 import handleReverseActionMutation from '../../mutations/Events.gql';
+import Loading from '../../components/Loading';
 import { timeago } from '../../../modules/dates';
 
 import { StyledEvents, Event } from './styles';
@@ -12,6 +13,7 @@ const PER_PAGE = 25;
 
 class Events extends React.Component {
   state = {
+    loading: true,
     events: [],
     totalEvents: 0,
     activeEvent: null,
@@ -21,6 +23,14 @@ class Events extends React.Component {
 
   componentWillMount() {
     this.fetchEvents();
+
+    this.refetchTimer = setInterval(() => {
+      this.fetchEvents();
+    }, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.refetchTimer);
   }
 
   fetchEvents = async () => {
@@ -37,8 +47,7 @@ class Events extends React.Component {
       },
     });
 
-    this.setState({ totalEvents, events });
-
+    this.setState({ loading: false, totalEvents, events });
   };
 
   getSeverityIcon = (severity) => {
@@ -137,12 +146,13 @@ class Events extends React.Component {
   };
 
   render() {
-    const { data } = this.props;
-    const { totalEvents, events } = this.state;
+    const { loading, totalEvents, events } = this.state;
     const eventsWithParsedGuardDutyEvent = events.map(({ guardDutyEvent, ...rest }) => ({
       ...rest,
       guardDutyEvent: this.parseGuardDutyEvent(guardDutyEvent),
     }));
+
+    if (loading) return <Loading />;
 
     return (
       <React.Fragment>
@@ -243,10 +253,9 @@ class Events extends React.Component {
             },
           )}
         </StyledEvents>
-        {totalEvents &&
-          this.state.perPage &&
-          totalEvents > this.state.perPage &&
-          this.renderPagination()}
+        {totalEvents && this.state.perPage && totalEvents > this.state.perPage
+          ? this.renderPagination()
+          : null}
       </React.Fragment>
     );
   }
