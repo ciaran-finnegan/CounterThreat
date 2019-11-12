@@ -21,6 +21,8 @@ export default `
 
   type Event {
     _id: ID
+    createdAt: String # Check with Ryan, should be a date
+    sourceSeverity: String # Check with Ryan, should be an integer
     customerId: ID # NOTE: ID of the customer in the Customers collection.
     guardDutyEvent: String
     actionParameters: ActionParameters
