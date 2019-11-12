@@ -4,11 +4,35 @@ import json
 from socket import gethostbyname, gaierror
 from inspect import stack
 import logging
-
+from botocore.vendored import requests
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+# defining the api-endpoint  
+API_ENDPOINT = "https://h8bfxurcv9.execute-api.us-east-1.amazonaws.com/dev/events"
+
+# your API key here (not really, pull from somewhere secure)
+API_KEY = "XXXXXXXXXXXXXXXXX"
+
+# defining the CustomerID
+customerId : "SxPGt5PTAPWycYhL4"
+
+def createThreatEvent(data):
+
+        # sending post request and saving response as response object 
+        resp = requests.post(url = API_ENDPOINT, data = data) 
+        
+        # extracting response text  
+        if resp.status_code != 201:
+        # This means something went wrong.
+                print ('Error, status code:', (resp.status_code) )
+                logger.info('Error, status code:', (resp.status_code) )
+                
+        else:
+                x = json.loads(resp.text)
+                print ('Success, status code:', (resp.status_code), 'created Threat Event ID:', (x["_id"])) 
+                logger.info('Success, status code:', (resp.status_code), 'created Threat Event ID:', (x["_id"])) 
 
 def blacklist_ip(ip_address):
     try:
@@ -243,35 +267,83 @@ class Config(object):
 
 def lambda_handler(event, context):
     logger.info("CounterThreat: Received JSON event - ".format(event))
+    finding_id = event['id']
+    severity = int(event['severity'])
+    createdAt = event['createdAt']
+    
     try:
 
         finding_id = event['id']
         finding_type =  event['type']
-        logger.info("CounterThreat: Parsed Finding ID: {} - Finding Type: {}".format(finding_id, finding_type))
         config = Config(event['type'])
         severity = int(event['severity'])
+        createdAt = event['createdAt']
+        logger.info("CounterThreat: Parsed Finding ID: {} - Finding Type: {}".format(finding_id, finding_type))
 
         config_actions = config.get_actions()
         config_reliability = config.get_reliability()
         resource_type = event['resource']['resourceType']
+        
     except KeyError as e:
         logger.error("CounterThreat: Could not parse the Finding fields correctly, please verify that the JSON is correct")
         exit(1)
+
+    # define empty actionParameters dictionary
+    actionParameters = dict()
+
     if resource_type == 'Instance':
         instance = event['resource']['instanceDetails']
         instance_id = instance["instanceId"]
         vpc_id = instance['networkInterfaces'][0]['vpcId']
+        #
+        # actionParameters['instance'] = instance
+        actionParameters['instanceId'] = instance_id 
+        actionParameters['vpcId'] = vpc_id
+        #
     elif resource_type == 'AccessKey':
         username = event['resource']['accessKeyDetails']['userName']
+        #
+        actionParameters['username'] = username
+        #
 
     if event['service']['action']['actionType'] == 'DNS_REQUEST':
         domain = event['service']['action']['dnsRequestAction']['domain']
+        #
+        actionParameters['domain'] = domain
+        #
     elif event['service']['action']['actionType'] == 'AWS_API_CALL':
         ip_address = event['service']['action']['awsApiCallAction']['remoteIpDetails']['ipAddressV4']
+        #
+        actionParameters['ipAddress'] = ip_address
+        #
     elif event['service']['action']['actionType'] == 'NETWORK_CONNECTION':
         ip_address = event['service']['action']['networkConnectionAction']['remoteIpDetails']['ipAddressV4']
+        #
+        actionParameters['ipAddress'] = ip_address
+        #
     elif event['service']['action']['actionType'] == 'PORT_PROBE':
         ip_address = event['service']['action']['portProbeAction']['portProbeDetails'][0]['remoteIpDetails']['ipAddressV4']
+        #
+        actionParameters['ipAddress'] = ip_address
+        #
+
+    
+    # stringify the guardDutyEvent
+    # guardDutyEvent = json.load(event)
+    guardDutyEventString = json.dumps(event)
+    # create guardDutyEvent key with value of stringified guardDutyEvent
+
+    # create empty dict for action Objects
+    actionObject =dict()
+    actionObject['type'] = "not defined"
+    actionObject['status'] = "pending"
+    actionObject['isReversible'] = True
+    
+    # create empty array for actions
+    actions = []
+    for action in config_actions:
+        actionObject['type'] = action
+        actions.append(actionObject)
 
     successful_actions = 0
     total_config_actions = len(config_actions)
@@ -349,5 +421,21 @@ def lambda_handler(event, context):
                 logger.info("CounterThreat: Executing action {}".format(action))
                 result = asg_detach_instance(instance_id)
                 successful_actions += int(result)
+    # Create new ThreatEvent
+    # define empty dictionary for threatEvent
+    threatEvent = dict()
+    threatEvent['customerId'] = "SxPGt5PTAPWycYhL4"
+    threatEvent['createdAt'] = createdAt
+    threatEvent['sourceSeverity'] = severity
+    threatEvent['guardDutyEvent'] = guardDutyEventString
+    threatEvent['actionParameters'] = actionParameters
+    threatEvent['actions'] = actions
+        
+    logger.info("logging out threatEvent before posting")
+    logger.info("created at {}".format(createdAt))
+    logger.info("severity {}".format(severity))
+    stringifiedThreatEvent = json.dumps(threatEvent)
+    createThreatEvent(stringifiedThreatEvent)
+
     logger.info("CounterThreat: Total actions: {} - Actions to be executed: {} - Successful Actions: {} - Finding ID:  {} - Finding Type: {}".format(
                 total_config_actions, actions_to_be_executed, successful_actions, finding_id, finding_type))
