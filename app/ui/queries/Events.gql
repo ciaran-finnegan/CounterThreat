@@ -3,6 +3,8 @@ query events($perPage: Int!, $currentPage: Int!) {
     totalEvents
     events {
       _id
+      sourceSeverity
+      createdAt
       customerId
       actions {
         status

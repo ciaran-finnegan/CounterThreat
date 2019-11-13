@@ -158,10 +158,10 @@ class Events extends React.Component {
       <React.Fragment>
         <StyledEvents>
           {eventsWithParsedGuardDutyEvent.map(
-            ({ _id, guardDutyEvent, actionParameters, actions }) => {
+            ({ _id, sourceSeverity, createdAt, guardDutyEvent, actionParameters, actions }) => {
               const detail = _.get(guardDutyEvent, 'detail', {});
-              const title = _.get(detail, 'title', 'Uknonwn event.');
-              const createdAt = _.get(detail, 'createdAt', null);
+              const title = _.get(detail, 'title', 'Unknown event.');
+              const old_createdAt = _.get(detail, 'createdAt', null);
               const severity = _.get(detail, 'severity', 0);
               const isActiveEvent = this.state.activeEvent === _id;
               return (
@@ -170,8 +170,8 @@ class Events extends React.Component {
                     {this.getSeverityIcon(severity)}
                     <div className="event-content">
                       <header>
-                        <p>{title}</p>
-                        {createdAt && <time>{timeago(createdAt)}</time>}
+                        <p>{title} : old-time: {old_createdAt} new-time: {createdAt} sourceSeverity: {sourceSeverity}</p>
+                        {old_createdAt && <time>{timeago(old_createdAt)}</time>}
                         <i className={`fas ${isActiveEvent ? 'fa-caret-up' : 'fa-caret-down'}`} />
                       </header>
                     </div>
