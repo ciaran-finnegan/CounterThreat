@@ -5,11 +5,10 @@ import PropTypes from 'prop-types';
 import eventsQuery from '../../queries/Events.gql';
 import handleReverseActionMutation from '../../mutations/Events.gql';
 import Loading from '../../components/Loading';
-import { timeago } from '../../../modules/dates';
-
+import { timeago, epochToHuman, epicToISO } from '../../../modules/dates';
 import { StyledEvents, Event } from './styles';
 
-const PER_PAGE = 25;
+const PER_PAGE = 25;  
 
 class Events extends React.Component {
   state = {
@@ -159,9 +158,10 @@ class Events extends React.Component {
         <StyledEvents>
           {eventsWithParsedGuardDutyEvent.map(
             ({ _id, sourceSeverity, createdAt, guardDutyEvent, actionParameters, actions }) => {
+              let createdAtHumanReadable = epochToHuman(createdAt /1000);
+              let createdAtISODate = epicToISO(createdAt);
               const detail = _.get(guardDutyEvent, 'detail', {});
               const title = _.get(detail, 'title', 'Unknown event.');
-              const old_createdAt = _.get(detail, 'createdAt', null);
               const severity = _.get(detail, 'severity', 0);
               const isActiveEvent = this.state.activeEvent === _id;
               return (
@@ -170,8 +170,8 @@ class Events extends React.Component {
                     {this.getSeverityIcon(severity)}
                     <div className="event-content">
                       <header>
-                        <p>{title} : old-time: {old_createdAt} new-time: {createdAt} sourceSeverity: {sourceSeverity}</p>
-                        {old_createdAt && <time>{timeago(old_createdAt)}</time>}
+                        <p>{title}</p>
+                        {createdAtISODate && <time>{timeago(createdAtISODate)}</time>}
                         <i className={`fas ${isActiveEvent ? 'fa-caret-up' : 'fa-caret-down'}`} />
                       </header>
                     </div>

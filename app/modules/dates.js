@@ -45,3 +45,8 @@ export const iso = (timestamp, timezone) =>
     : moment(timestamp)
         .tz(timezone)
         .format();
+
+export const epicToISO = (timestamp, timezone) =>
+  moment.unix(timestamp/1000).format();
+  
+export const epochToHuman = (epoch, format) => moment.unix(epoch).format(format || 'MMMM Do, YYYY');
