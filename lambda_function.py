@@ -267,22 +267,20 @@ class Config(object):
 
 def lambda_handler(event, context):
     logger.info("CounterThreat: Received JSON event - ".format(event))
-    finding_id = event['id']
-    severity = int(event['severity'])
-    createdAt = event['createdAt']
+    finding_id = event['detail'] ['id']
+    severity = int(event['detail'] ['severity'])
     
     try:
 
-        finding_id = event['id']
-        finding_type =  event['type']
-        config = Config(event['type'])
-        severity = int(event['severity'])
-        createdAt = event['createdAt']
+        finding_id = event['detail'] ['id']
+        finding_type =  event['detail'] ['type']
+        config = Config(event['detail'] ['type'])
+        severity = int(event['detail'] ['severity'])
         logger.info("CounterThreat: Parsed Finding ID: {} - Finding Type: {}".format(finding_id, finding_type))
 
         config_actions = config.get_actions()
         config_reliability = config.get_reliability()
-        resource_type = event['resource']['resourceType']
+        resource_type = event['detail'] ['resource']['resourceType']
         
     except KeyError as e:
         logger.error("CounterThreat: Could not parse the Finding fields correctly, please verify that the JSON is correct")
@@ -292,7 +290,7 @@ def lambda_handler(event, context):
     actionParameters = dict()
 
     if resource_type == 'Instance':
-        instance = event['resource']['instanceDetails']
+        instance = event['detail'] ['resource']['instanceDetails']
         instance_id = instance["instanceId"]
         vpc_id = instance['networkInterfaces'][0]['vpcId']
         #
@@ -306,23 +304,23 @@ def lambda_handler(event, context):
         actionParameters['username'] = username
         #
 
-    if event['service']['action']['actionType'] == 'DNS_REQUEST':
-        domain = event['service']['action']['dnsRequestAction']['domain']
+    if event['detail'] ['service']['action']['actionType'] == 'DNS_REQUEST':
+        domain = event['detail'] ['service']['action']['dnsRequestAction']['domain']
         #
         actionParameters['domain'] = domain
         #
-    elif event['service']['action']['actionType'] == 'AWS_API_CALL':
-        ip_address = event['service']['action']['awsApiCallAction']['remoteIpDetails']['ipAddressV4']
+    elif event['detail'] ['service']['action']['actionType'] == 'AWS_API_CALL':
+        ip_address = event['detail'] ['service']['action']['awsApiCallAction']['remoteIpDetails']['ipAddressV4']
         #
         actionParameters['ipAddress'] = ip_address
         #
-    elif event['service']['action']['actionType'] == 'NETWORK_CONNECTION':
-        ip_address = event['service']['action']['networkConnectionAction']['remoteIpDetails']['ipAddressV4']
+    elif event['detail'] ['service']['action']['actionType'] == 'NETWORK_CONNECTION':
+        ip_address = event ['detail'] ['service']['action']['networkConnectionAction']['remoteIpDetails']['ipAddressV4']
         #
         actionParameters['ipAddress'] = ip_address
         #
-    elif event['service']['action']['actionType'] == 'PORT_PROBE':
-        ip_address = event['service']['action']['portProbeAction']['portProbeDetails'][0]['remoteIpDetails']['ipAddressV4']
+    elif event['detail'] ['service']['action']['actionType'] == 'PORT_PROBE':
+        ip_address = event['detail'] ['service']['action']['portProbeAction']['portProbeDetails'][0]['remoteIpDetails']['ipAddressV4']
         #
         actionParameters['ipAddress'] = ip_address
         #
@@ -424,15 +422,15 @@ def lambda_handler(event, context):
     # Create new ThreatEvent
     # define empty dictionary for threatEvent
     threatEvent = dict()
-    threatEvent['customerId'] = "SxPGt5PTAPWycYhL4"
-    threatEvent['createdAt'] = createdAt
+    threatEvent['customerId'] = "fjBbetPG7Jj29XpAe"
+    threatEvent['createdAt'] = "2019-11-14T13:02:25Z"
     threatEvent['sourceSeverity'] = severity
     threatEvent['guardDutyEvent'] = guardDutyEventString
     threatEvent['actionParameters'] = actionParameters
     threatEvent['actions'] = actions
         
     logger.info("logging out threatEvent before posting")
-    logger.info("created at {}".format(createdAt))
+    # logger.info("created at {}".format(createdAt))
     logger.info("severity {}".format(severity))
     stringifiedThreatEvent = json.dumps(threatEvent)
     createThreatEvent(stringifiedThreatEvent)
