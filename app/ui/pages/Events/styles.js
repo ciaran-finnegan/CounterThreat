@@ -51,11 +51,15 @@ export const Event = styled.li`
       margin: 0;
       font-weight: 500;
       color: var(--gray-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     time {
       color: var(--gray);
       margin-left: auto;
+      white-space: nowrap;
     }
 
     .fa-caret-up,
@@ -92,8 +96,16 @@ export const Event = styled.li`
     margin: 15px -15px -15px -15px;
     border-top: 1px solid var(--gray-lighter);
 
+    .mobile-event-title {
+      margin-bottom: 20px;
+
+      h5 {
+        margin: 0 0 10px 0;
+      }
+    }
+
     > ul {
-      display: flex;
+      /* display: flex; */
       list-style: none;
       padding: 0;
       margin: 0;
@@ -120,7 +132,11 @@ export const Event = styled.li`
     }
 
     > ul li:not(:first-child) {
-      margin-left: 30px;
+      margin-left: 0px;
+    }
+
+    > ul > li:not(:last-child) {
+      margin-bottom: 15px;
     }
 
     > ul li.action {
@@ -171,6 +187,25 @@ export const Event = styled.li`
         background: var(--danger);
         color: #fff;
       }
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .event-footer {
+      > ul {
+        display: flex;
+      }
+
+      > ul li:not(:last-child) {
+        margin-right: 30px;
+      }
+
+      > ul li:not(:last-child) {
+        margin-bottom: 0px;
+      }
+    }
+    .event-footer .mobile-event-title {
+      display: none;
     }
   }
 

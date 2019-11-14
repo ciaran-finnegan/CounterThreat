@@ -8,7 +8,7 @@ import Loading from '../../components/Loading';
 import { timeago, epochToHuman, epicToISO } from '../../../modules/dates';
 import { StyledEvents, Event } from './styles';
 
-const PER_PAGE = 25;  
+const PER_PAGE = 25;
 
 class Events extends React.Component {
   state = {
@@ -158,7 +158,7 @@ class Events extends React.Component {
         <StyledEvents>
           {eventsWithParsedGuardDutyEvent.map(
             ({ _id, sourceSeverity, createdAt, guardDutyEvent, actionParameters, actions }) => {
-              let createdAtHumanReadable = epochToHuman(createdAt /1000);
+              let createdAtHumanReadable = epochToHuman(createdAt / 1000);
               let createdAtISODate = epicToISO(createdAt);
               const detail = _.get(guardDutyEvent, 'detail', {});
               const title = _.get(detail, 'title', 'Unknown event.');
@@ -178,6 +178,10 @@ class Events extends React.Component {
                   </div>
                   {isActiveEvent && (
                     <footer className="event-footer">
+                      <div className="mobile-event-title">
+                        <h5>Full Event</h5>
+                        <pre>{title}</pre>
+                      </div>
                       <ul>
                         {actionParameters && actionParameters.username && (
                           <li>
