@@ -1,7 +1,9 @@
 import React from 'react';
 import { compose, graphql, withApollo } from 'react-apollo';
 import _ from 'lodash';
+import { ButtonGroup, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 import playbooksQuery from '../../queries/Playbooks.gql';
 import updatePlaybookMutation from '../../mutations/Playbooks.gql';
 import delay from '../../../modules/delay';
@@ -72,14 +74,13 @@ class Playbooks extends React.Component {
     );
   };
 
-  handleUpdatePlaybookSensitivity = (event, _id) => {
+  handleUpdatePlaybookSensitivity = (reliability, _id) => {
     const { updatePlaybook } = this.props;
-    event.persist();
 
     this.setState(
       ({ playbooks }) => {
         const playbookToUpdate = playbooks.find((playbook) => playbook._id === _id);
-        playbookToUpdate.reliability = event.target.value;
+        playbookToUpdate.reliability = reliability;
 
         return {
           playbooks,
@@ -87,14 +88,13 @@ class Playbooks extends React.Component {
       },
       () => {
         delay(() => {
-          const playbookToUpdateOnServer = this.state.playbooks.find(
-            (playbook) => playbook._id === _id,
-          );
+          const { playbooks } = this.state;
+          const playbookToUpdateOnServer = playbooks.find((playbook) => playbook._id === _id);
 
           updatePlaybook({
             variables: {
               _id: playbookToUpdateOnServer._id,
-              reliability: parseInt(playbookToUpdateOnServer.reliability, 10),
+              reliability,
             },
           }).then(() => {
             this.fetchPlaybooks();
@@ -125,14 +125,45 @@ class Playbooks extends React.Component {
                     <PlaybookSetting>
                       <h5>Sensitivity</h5>
                       <div>
-                        <input
-                          type="range"
-                          step="1"
-                          min="3"
-                          max="7"
-                          value={reliability}
-                          onChange={(event) => this.handleUpdatePlaybookSensitivity(event, _id)}
-                        />
+                        <ButtonGroup>
+                          <Button
+                            data-tip="Disabled explanation"
+                            bsStyle={reliability === -10 ? 'danger' : 'default'}
+                            onClick={() => {
+                              this.handleUpdatePlaybookSensitivity(-10, _id);
+                            }}
+                          >
+                            Disabled
+                          </Button>
+                          <Button
+                            data-tip="Low explanation"
+                            bsStyle={reliability === 3 ? 'warning' : 'default'}
+                            onClick={() => {
+                              this.handleUpdatePlaybookSensitivity(3, _id);
+                            }}
+                          >
+                            Low
+                          </Button>
+                          <Button
+                            data-tip="Medium explanation"
+                            bsStyle={reliability === 5 ? 'primary' : 'default'}
+                            onClick={() => {
+                              this.handleUpdatePlaybookSensitivity(5, _id);
+                            }}
+                          >
+                            Medium
+                          </Button>
+                          <Button
+                            data-tip="High explanation"
+                            bsStyle={reliability === 8 ? 'success' : 'default'}
+                            onClick={() => {
+                              this.handleUpdatePlaybookSensitivity(8, _id);
+                            }}
+                          >
+                            High
+                          </Button>
+                        </ButtonGroup>
+                        <ReactTooltip place="top" type="dark" effect="solid" />
                       </div>
                     </PlaybookSetting>
                     <PlaybookSetting>
