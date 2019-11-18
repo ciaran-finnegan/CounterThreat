@@ -1,5 +1,6 @@
 export default `
   enum ActionStatus {
+    ignored
     pending
     successful
     failed

@@ -257,6 +257,7 @@ def lambda_handler(event, context):
     except KeyError as e:
         logger.error("CounterThreat: Could not parse the Finding fields correctly, please verify that the JSON is correct")
         exit(1)
+        # parse out instance_id, vpc_id, username & ip_address 
     if resource_type == 'Instance':
         instance = event['resource']['instanceDetails']
         instance_id = instance["instanceId"]

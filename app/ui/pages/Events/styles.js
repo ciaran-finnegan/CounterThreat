@@ -173,6 +173,11 @@ export const Event = styled.li`
         }
       }
 
+      &.action-ignored {
+        background: var(--gray-lighter);
+        color: var(--gray);
+      }
+      
       &.action-pending {
         background: var(--gray-lighter);
         color: var(--gray);

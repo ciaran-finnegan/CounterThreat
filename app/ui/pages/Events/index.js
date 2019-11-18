@@ -2,6 +2,7 @@ import React from 'react';
 import { compose, graphql, withApollo } from 'react-apollo';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 import eventsQuery from '../../queries/Events.gql';
 import handleReverseActionMutation from '../../mutations/Events.gql';
 import Loading from '../../components/Loading';
@@ -227,9 +228,10 @@ class Events extends React.Component {
                                   >
                                     {
                                       {
-                                        pending: <i className="fas fa-clock" />,
-                                        successful: <i className="fas fa-check" />,
-                                        failed: <i className="fas fa-remove" />,
+                                        ignored: <i className=" fas fa-info" data-tip="No action taken, check senstivity level in remediation playbook"/>,
+                                        pending: <i className="fas fa-clock" data-tip="Action pending"/>,
+                                        successful: <i className="fas fa-check" data-tip="Action taken successfully"/>,
+                                        failed: <i className="fas fa-remove" data-tip="Failed to take the action"/>,
                                       }[status]
                                     }
                                     <span>{type}</span>
@@ -240,12 +242,13 @@ class Events extends React.Component {
                                           this.handleReverseAction(event, _id, type)
                                         }
                                       >
-                                        <i className="fas fa-refresh" />
+                                        <i className="fas fa-refresh" data-tip="Click to undo action" />
                                       </div>
                                     )}
                                   </li>
                                 ))}
                               </ul>
+                              <ReactTooltip place="top" type="dark" effect="solid" />
                             </p>
                           </li>
                         )}

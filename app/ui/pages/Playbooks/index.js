@@ -127,7 +127,7 @@ class Playbooks extends React.Component {
                       <div>
                         <ButtonGroup>
                           <Button
-                            data-tip="Disabled explanation"
+                            data-tip="Caution, this means no auto-remediation action will be taken"
                             bsStyle={reliability === -10 ? 'danger' : 'default'}
                             onClick={() => {
                               this.handleUpdatePlaybookSensitivity(-10, _id);
@@ -136,7 +136,7 @@ class Playbooks extends React.Component {
                             Disabled
                           </Button>
                           <Button
-                            data-tip="Low explanation"
+                            data-tip="Caution, only auto-remediate high severity threat events (GuardDuty Severity 7+)"
                             bsStyle={reliability === 3 ? 'warning' : 'default'}
                             onClick={() => {
                               this.handleUpdatePlaybookSensitivity(3, _id);
@@ -145,7 +145,7 @@ class Playbooks extends React.Component {
                             Low
                           </Button>
                           <Button
-                            data-tip="Medium explanation"
+                            data-tip="Recommended, auto-remediate medium and high severity threat events (GuardDuty Severity 5+)"
                             bsStyle={reliability === 5 ? 'primary' : 'default'}
                             onClick={() => {
                               this.handleUpdatePlaybookSensitivity(5, _id);
@@ -154,10 +154,10 @@ class Playbooks extends React.Component {
                             Medium
                           </Button>
                           <Button
-                            data-tip="High explanation"
-                            bsStyle={reliability === 8 ? 'success' : 'default'}
+                            data-tip="Paranoid, auto-remediate low, medium and high severity threat events (GuardDuty Severity 3+)"
+                            bsStyle={reliability === 7 ? 'success' : 'default'}
                             onClick={() => {
-                              this.handleUpdatePlaybookSensitivity(8, _id);
+                              this.handleUpdatePlaybookSensitivity(7, _id);
                             }}
                           >
                             High
