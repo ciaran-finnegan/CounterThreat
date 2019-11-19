@@ -15,8 +15,8 @@ API_ENDPOINT = "https://h8bfxurcv9.execute-api.us-east-1.amazonaws.com/dev/event
 # your API key here (not really, pull from somewhere secure)
 API_KEY = "XXXXXXXXXXXXXXXXX"
 
-# defining the CustomerID
-customerId : "SxPGt5PTAPWycYhL4"
+# defining the CustomerID, pull from REST API
+customerId = "fjBbetPG7Jj29XpAe" #admin@admin.com
 
 def createThreatEvent(data):
 
@@ -264,20 +264,21 @@ class Config(object):
 
 
 def lambda_handler(event, context):
+    global customerId
     logger.info("CounterThreat: Received JSON event - ".format(event))
-    finding_id = event['id']
+    finding_id = event ['detail'] ['id']
     
     try:
 
-        finding_id = event['id']
-        finding_type =  event['type']
-        config = Config(event['type'])
-        severity = int(event['severity'])
+        finding_id = event ['detail'] ['id']
+        finding_type =  event['detail'] ['type']
+        config = Config(event['detail'] ['type'])
+        severity = int(event['detail'] ['severity'])
         logger.info("CounterThreat: Parsed Finding ID: {} - Finding Type: {}".format(finding_id, finding_type))
 
         config_actions = config.get_actions()
         config_reliability = config.get_reliability()
-        resource_type = event['resource']['resourceType']
+        resource_type = event['detail'] ['resource']['resourceType']
         
     except KeyError as e:
         logger.error("CounterThreat: Could not parse the Finding fields correctly, please verify that the JSON is correct")
@@ -287,7 +288,7 @@ def lambda_handler(event, context):
     actionParameters = dict()
     # parse actionParameters, instance_id, vpc_id, username, domain & ip_address
     if resource_type == 'Instance':
-        instance = event['resource']['instanceDetails']
+        instance = event['detail'] ['resource']['instanceDetails']
         instance_id = instance["instanceId"]
         vpc_id = instance['networkInterfaces'][0]['vpcId']
         #
@@ -296,28 +297,28 @@ def lambda_handler(event, context):
         actionParameters['vpcId'] = vpc_id
         #
     elif resource_type == 'AccessKey':
-        username = event['resource']['accessKeyDetails']['userName']
+        username = event['detail'] ['resource']['accessKeyDetails']['userName']
         #
         actionParameters['username'] = username
         #
 
-    if event['service']['action']['actionType'] == 'DNS_REQUEST':
-        domain = event['service']['action']['dnsRequestAction']['domain']
+    if event['detail'] ['service']['action']['actionType'] == 'DNS_REQUEST':
+        domain = event['detail'] ['service']['action']['dnsRequestAction']['domain']
         #
         actionParameters['domain'] = domain
         #
-    elif event['service']['action']['actionType'] == 'AWS_API_CALL':
-        ip_address = event['service']['action']['awsApiCallAction']['remoteIpDetails']['ipAddressV4']
+    elif event['detail'] ['service']['action']['actionType'] == 'AWS_API_CALL':
+        ip_address = event['detail'] ['service']['action']['awsApiCallAction']['remoteIpDetails']['ipAddressV4']
         #
         actionParameters['ipAddress'] = ip_address
         #
-    elif event['service']['action']['actionType'] == 'NETWORK_CONNECTION':
-        ip_address = event['service']['action']['networkConnectionAction']['remoteIpDetails']['ipAddressV4']
+    elif event['detail'] ['service']['action']['actionType'] == 'NETWORK_CONNECTION':
+        ip_address = event['detail'] ['service']['action']['networkConnectionAction']['remoteIpDetails']['ipAddressV4']
         #
         actionParameters['ipAddress'] = ip_address
         #
-    elif event['service']['action']['actionType'] == 'PORT_PROBE':
-        ip_address = event['service']['action']['portProbeAction']['portProbeDetails'][0]['remoteIpDetails']['ipAddressV4']
+    elif event['detail'] ['service']['action']['actionType'] == 'PORT_PROBE':
+        ip_address = event['detail'] ['service']['action']['portProbeAction']['portProbeDetails'][0]['remoteIpDetails']['ipAddressV4']
         #
         actionParameters['ipAddress'] = ip_address
         #
@@ -506,14 +507,16 @@ def lambda_handler(event, context):
     # Create new ThreatEvent
     # define empty dictionary for threatEvent
     threatEvent = dict()
-    threatEvent['customerId'] = "SxPGt5PTAPWycYhL4"
+    threatEvent['customerId'] = customerId
+    threatEvent['createdAt'] = event ['detail'] ['createdAt']
+    threatEvent['sourceSeverity'] = severity
     threatEvent['guardDutyEvent'] = guardDutyEventString
     threatEvent['actionParameters'] = actionParameters
-    threatEvent['actions'] = []
-    logger.info("logging out threatEvent before posting")
-    y = json.dumps(threatEvent)
-    logger.info(threatEvent)
-    createThreatEvent(y)
+    threatEvent['actions'] = actions
+    
+    logger.info("logging out threatEvent json before posting")
+    logger.info(json.dumps(threatEvent))
+    createThreatEvent(json.dumps(threatEvent)
 
     logger.info("CounterThreat: Total actions: {} - Actions to be executed: {} - Successful Actions: {} - Finding ID:  {} - Finding Type: {}".format(
                 total_config_actions, actions_to_be_executed, successful_actions, finding_id, finding_type))
