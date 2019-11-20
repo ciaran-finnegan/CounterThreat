@@ -264,7 +264,7 @@ class Config(object):
 
 
 def lambda_handler(event, context):
-    global customerId
+    global customerId # must be global to assign to threatEvent property
     logger.info("CounterThreat: Received JSON event - ".format(event))
     finding_id = event ['detail'] ['id']
     
