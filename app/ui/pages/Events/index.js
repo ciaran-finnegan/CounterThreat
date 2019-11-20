@@ -159,8 +159,7 @@ class Events extends React.Component {
         <StyledEvents>
           {eventsWithParsedGuardDutyEvent.map(
             ({ _id, sourceSeverity, createdAt, guardDutyEvent, actionParameters, actions }) => {
-              let createdAtHumanReadable = epochToHuman(createdAt / 1000);
-              let createdAtISODate = epicToISO(createdAt);
+              console.log(createdAt, typeof createdAt);
               const detail = _.get(guardDutyEvent, 'detail', {});
               const title = _.get(detail, 'title', 'Unknown event.');
               const severity = _.get(detail, 'severity', 0);
@@ -172,7 +171,7 @@ class Events extends React.Component {
                     <div className="event-content">
                       <header>
                         <p>{title}</p>
-                        {createdAtISODate && <time>{timeago(createdAtISODate)}</time>}
+                        {createdAt && <time>{timeago(createdAt)}</time>}
                         <i className={`fas ${isActiveEvent ? 'fa-caret-up' : 'fa-caret-down'}`} />
                       </header>
                     </div>
@@ -214,7 +213,7 @@ class Events extends React.Component {
                             <p>{actionParameters.vpcId}</p>
                           </li>
                         )}
-                        {actions && actions.length && (
+                        {actions && actions.length > 0 ? (
                           <li>
                             <h5>Actions</h5>
                             <p>
@@ -228,10 +227,27 @@ class Events extends React.Component {
                                   >
                                     {
                                       {
-                                        ignored: <i className=" fas fa-info" data-tip="No action taken, check senstivity level in remediation playbook"/>,
-                                        pending: <i className="fas fa-clock" data-tip="Action pending"/>,
-                                        successful: <i className="fas fa-check" data-tip="Action taken successfully"/>,
-                                        failed: <i className="fas fa-remove" data-tip="Failed to take the action"/>,
+                                        ignored: (
+                                          <i
+                                            className="fas fa-shield-check"
+                                            data-tip="No action taken, check senstivity level in remediation playbook"
+                                          />
+                                        ),
+                                        pending: (
+                                          <i className="fas fa-clock" data-tip="Action pending" />
+                                        ),
+                                        successful: (
+                                          <i
+                                            className="fas fa-check"
+                                            data-tip="Action taken successfully"
+                                          />
+                                        ),
+                                        failed: (
+                                          <i
+                                            className="fas fa-remove"
+                                            data-tip="Failed to take the action"
+                                          />
+                                        ),
                                       }[status]
                                     }
                                     <span>{type}</span>
@@ -242,7 +258,10 @@ class Events extends React.Component {
                                           this.handleReverseAction(event, _id, type)
                                         }
                                       >
-                                        <i className="fas fa-refresh" data-tip="Click to undo action" />
+                                        <i
+                                          className="fas fa-refresh"
+                                          data-tip="Click to undo action"
+                                        />
                                       </div>
                                     )}
                                   </li>
@@ -251,7 +270,7 @@ class Events extends React.Component {
                               <ReactTooltip place="top" type="dark" effect="solid" />
                             </p>
                           </li>
-                        )}
+                        ) : null}
                       </ul>
                     </footer>
                   )}
