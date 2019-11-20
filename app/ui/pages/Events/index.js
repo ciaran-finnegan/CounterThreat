@@ -225,45 +225,60 @@ class Events extends React.Component {
                                       status === 'successful' &&
                                       'is-reversible'}`}
                                   >
-                                    {
+                                    <div className="action-content">
                                       {
-                                        ignored: (
-                                          <i
-                                            className="fas fa-shield-check"
-                                            data-tip="No action taken, check senstivity level in remediation playbook"
-                                          />
-                                        ),
-                                        pending: (
-                                          <i className="fas fa-clock" data-tip="Action pending" />
-                                        ),
-                                        successful: (
-                                          <i
-                                            className="fas fa-check"
-                                            data-tip="Action taken successfully"
-                                          />
-                                        ),
-                                        failed: (
-                                          <i
-                                            className="fas fa-remove"
-                                            data-tip="Failed to take the action"
-                                          />
-                                        ),
-                                      }[status]
-                                    }
-                                    <span>{type}</span>
-                                    {isReversible && status === 'successful' && (
-                                      <div
-                                        className={`reverse-action`}
-                                        onClick={(event) =>
-                                          this.handleReverseAction(event, _id, type)
+                                        {
+                                          ignored: (
+                                            <i
+                                              className="fas fa-shield-check"
+                                              data-tip="No action taken, check senstivity level in remediation playbook"
+                                            />
+                                          ),
+                                          pending: (
+                                            <i className="fas fa-clock" data-tip="Action pending" />
+                                          ),
+                                          successful: (
+                                            <i
+                                              className="fas fa-check"
+                                              data-tip="Action taken successfully"
+                                            />
+                                          ),
+                                          failed: (
+                                            <i
+                                              className="fas fa-remove"
+                                              data-tip="Failed to take the action"
+                                            />
+                                          ),
+                                        }[status]
+                                      }
+                                      <span>{type}</span>
+                                      {isReversible && status === 'successful' && (
+                                        <div
+                                          role="presentation"
+                                          className="reverse-action"
+                                          onClick={(event) =>
+                                            this.handleReverseAction(event, _id, type)
+                                          }
+                                        >
+                                          <p>
+                                            <i className="fas fa-refresh" /> Undo
+                                          </p>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div className="mobile-explanation">
+                                      <p>
+                                        {
+                                          {
+                                            ignored:
+                                              'No action taken, check senstivity level in remediation playbook',
+                                            pending: 'Action pending',
+                                            successful: 'Action taken successfully',
+                                            failed: 'Failed to take the action',
+                                          }[status]
                                         }
-                                      >
-                                        <i
-                                          className="fas fa-refresh"
-                                          data-tip="Click to undo action"
-                                        />
-                                      </div>
-                                    )}
+                                      </p>
+                                    </div>
                                   </li>
                                 ))}
                               </ul>
