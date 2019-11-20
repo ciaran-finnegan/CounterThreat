@@ -16,7 +16,7 @@ API_ENDPOINT = "https://h8bfxurcv9.execute-api.us-east-1.amazonaws.com/dev/event
 API_KEY = "XXXXXXXXXXXXXXXXX"
 
 # defining the CustomerID, pull from REST API
-customerId = "fjBbetPG7Jj29XpAe" #admin@admin.com
+customerId = "fjBbetPG7Jj29XpAe"
 
 def createThreatEvent(data):
 
@@ -264,13 +264,13 @@ class Config(object):
 
 
 def lambda_handler(event, context):
-    global customerId # must be global to assign to threatEvent property
     logger.info("CounterThreat: Received JSON event - ".format(event))
-    finding_id = event ['detail'] ['id']
+    global customerId
+    finding_id = event['detail'] ['id']
     
     try:
 
-        finding_id = event ['detail'] ['id']
+        finding_id = event['detail'] ['id']
         finding_type =  event['detail'] ['type']
         config = Config(event['detail'] ['type'])
         severity = int(event['detail'] ['severity'])
@@ -345,6 +345,10 @@ def lambda_handler(event, context):
         logger.info("CounterThreat: Action: {}".format(action))
         if action == 'blacklist_ip':
             actionObject['type'] = action
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -357,6 +361,10 @@ def lambda_handler(event, context):
                 actions.append(actionObject) 
         elif action == 'whitelist_ip':
             actionObject['type'] = action
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -369,6 +377,10 @@ def lambda_handler(event, context):
                 actions.append(actionObject)
         elif action == 'blacklist_domain':
             actionObject['type'] = action
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -389,6 +401,10 @@ def lambda_handler(event, context):
             actionObject['type'] = action
             actions.append(actionObject)
             #
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -404,6 +420,10 @@ def lambda_handler(event, context):
             actionObject['type'] = action
             actions.append(actionObject)
             #
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -419,6 +439,10 @@ def lambda_handler(event, context):
             actionObject['type'] = action
             actions.append(actionObject)
             #
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -434,6 +458,10 @@ def lambda_handler(event, context):
             actionObject['type'] = action
             actions.append(actionObject)
             #
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -449,6 +477,10 @@ def lambda_handler(event, context):
             actionObject['type'] = action
             actions.append(actionObject)
             #
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -464,6 +496,10 @@ def lambda_handler(event, context):
             actionObject['type'] = action
             actions.append(actionObject)
             #
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -479,6 +515,10 @@ def lambda_handler(event, context):
             actionObject['type'] = action
             actions.append(actionObject)
             #
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -494,6 +534,10 @@ def lambda_handler(event, context):
             actionObject['type'] = action
             actions.append(actionObject)
             #
+            if severity + config_reliability < 10: #handle ignore scenario
+                logger.info("CounterThreat: Ignoring action {}".format(action))
+                actionObject['status'] = ('ignored')
+                actions.append(actionObject) 
             if severity + config_reliability > 10:
                 actions_to_be_executed += 1
                 logger.info("CounterThreat: Executing action {}".format(action))
@@ -513,10 +557,12 @@ def lambda_handler(event, context):
     threatEvent['guardDutyEvent'] = guardDutyEventString
     threatEvent['actionParameters'] = actionParameters
     threatEvent['actions'] = actions
-    
+    logger.info("logging out threatEvent dict before posting")
+    y = json.dumps(threatEvent)
+    logger.info(threatEvent)
     logger.info("logging out threatEvent json before posting")
-    logger.info(json.dumps(threatEvent))
-    createThreatEvent(json.dumps(threatEvent)
+    logger.info(y)
+    createThreatEvent(y)
 
     logger.info("CounterThreat: Total actions: {} - Actions to be executed: {} - Successful Actions: {} - Finding ID:  {} - Finding Type: {}".format(
                 total_config_actions, actions_to_be_executed, successful_actions, finding_id, finding_type))
