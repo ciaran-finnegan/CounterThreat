@@ -119,7 +119,7 @@ export const Event = styled.li`
       margin: 0;
 
       ul {
-        display: flex;
+        /* display: flex; */
         align-items: center;
         padding: 0;
         margin: 0;
@@ -127,7 +127,11 @@ export const Event = styled.li`
       }
 
       > ul li:not(:first-child) {
-        margin-left: 10px;
+        /* margin-left: 10px; */
+      }
+
+      > ul li:not(:last-child) {
+        margin-bottom: 10px;
       }
     }
 
@@ -140,13 +144,20 @@ export const Event = styled.li`
     }
 
     > ul li.action {
-      padding: 2px 5px;
+      width: 100%;
+      padding: 0px;
       border-radius: 3px;
       font-size: 13px;
       position: relative;
 
+      > .action-content {
+        padding: 7px;
+        font-size: 13px;
+        line-height: 13px;
+      }
+
       &.is-reversible {
-        padding: 2px 30px 2px 6px;
+        padding: 2px 0px 2px 0;
       }
 
       i {
@@ -160,24 +171,31 @@ export const Event = styled.li`
         justify-content: center;
         position: absolute;
         top: 0;
-        right: 0;
-        bottom: 0;
+        right: 0px;
+        height: 29px;
         border-radius: 0px 3px 3px 0px;
-        display: inline-block;
         margin-left: 3px;
         background: rgba(0, 0, 0, 0.2);
-        padding: 2px 5px;
+        padding: 2px 7px;
+        font-size: 10px;
+        text-transform: uppercase;
+        font-weight: bold;
 
         i {
           margin-right: 0;
         }
       }
 
+      .mobile-explanation {
+        padding: 5px 10px;
+        border-top: 1px solid #ddd;
+      }
+
       &.action-ignored {
         background: var(--gray-lighter);
         color: var(--gray);
       }
-      
+
       &.action-pending {
         background: var(--gray-lighter);
         color: var(--gray);
@@ -186,11 +204,19 @@ export const Event = styled.li`
       &.action-successful {
         background: var(--success);
         color: #fff;
+
+        .mobile-explanation {
+          border-top: 1px solid #3a943a;
+        }
       }
 
       &.action-failed {
         background: var(--danger);
         color: #fff;
+
+        .mobile-explanation {
+          border-top: 1px solid #b33431;
+        }
       }
     }
   }
@@ -201,12 +227,40 @@ export const Event = styled.li`
         display: flex;
       }
 
-      > ul li:not(:last-child) {
+      > ul > li:not(:last-child) {
         margin-right: 30px;
       }
 
       > ul li:not(:last-child) {
         margin-bottom: 0px;
+      }
+
+      > ul li p ul {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: -10px;
+      }
+
+      > ul li p ul li.action {
+        width: auto;
+        margin-top: 10px;
+
+        &.is-reversible {
+          padding: 0px 57px 0px 0;
+        }
+
+        .reverse-action {
+          height: 27px;
+        }
+      }
+
+      > ul li p ul li:not(:last-child) {
+        margin-bottom: 0px;
+        margin-right: 10px;
+      }
+
+      .mobile-explanation {
+        display: none;
       }
     }
     .event-footer .mobile-event-title {
