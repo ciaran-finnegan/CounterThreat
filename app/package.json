@@ -49,7 +49,7 @@
     "handlebars": "^4.5.2",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.4.1",
-    "jquery-validation": "^1.19.1",
+    "jquery-validation": "^1.19.3",
     "jszip": "^3.2.2",
     "juice": "^5.2.0",
     "lodash": "^4.17.15",
