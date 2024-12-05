@@ -55,7 +55,7 @@
     "lodash": "^4.17.15",
     "meteor-node-stubs": "^0.4.1",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.26",
+    "moment-timezone": "^0.5.43",
     "polished": "^3.4.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
